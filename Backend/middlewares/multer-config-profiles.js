@@ -4,9 +4,9 @@ const uuid4 = require("uuid").v4;
 const path = require('path');
 
 const storage = multer.diskStorage({
-    destination: path.join(__dirname, "../images"),
+    destination: path.join(__dirname, '../images/profiles'),
     filename: (req, file, callback) => {
-        const fullName = "piqimg_" + uuid4().replace(/-/g, "") + path.extname(file.originalname);
+        const fullName = "grpimg_" + uuid4().replace(/-/g, "") + path.extname(file.originalname);
         callback(null, fullName);
     }
 });

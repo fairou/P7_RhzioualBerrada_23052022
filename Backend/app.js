@@ -13,10 +13,10 @@ const path = require('path');
 require("dotenv").config();
 
 //Imporation des différentes routes
-const authRoutes = require('./routes/authRooter');
-const userRoutes = require('./routes/userRooter');
-// const postRoutes = require('./routes/post');
-// const adminRoutes = require('./routes/admin');
+const authRoutes = require('./routes/authRoutes');
+const userRoutes = require('./routes/userRoutes');
+const postRoutes = require('./routes/postRoutes');
+const adminRoutes = require('./routes/adminRoutes');
 
 
 
@@ -56,8 +56,8 @@ app.use(express.json());
 //Middleware pour l'authentification
 app.use('/api/auth', authRoutes);
 app.use('/api/user', userRoutes);
-// app.use('/api/post', postRoutes);
-// app.use('/api/admin', adminRoutes);
+app.use('/api/post', postRoutes);
+app.use('/api/admin', adminRoutes);
 
 //Middleware pour le dossier images
 app.use('/images', express.static(path.join(__dirname, 'images')));

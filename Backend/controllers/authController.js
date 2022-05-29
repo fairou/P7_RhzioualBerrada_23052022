@@ -1,7 +1,5 @@
 require("dotenv").config();
 
-
-
 const User = require('../models/UserModel');
 
 // const schemaPassword = require("../models/passwordValidator");
@@ -12,7 +10,7 @@ const jwt = require('jsonwebtoken');
 
 exports.signup = (req, res, next) => {
 
-    User.newUserModel
+    User
         .findOne({ email: req.body.email })
         .then((user) => {
             if (user) {
@@ -21,20 +19,20 @@ exports.signup = (req, res, next) => {
                 bcrypt
                     .hash(req.body.password, Number(process.env.Salt))
                     .then((hash) => {
-                        const account = new User.newUserModel({
+                        const account = new User({
                             email: req.body.email,
                             password: hash,
-                            account: {
+                            profile: {
                                 firstname: "",
                                 lastname: "",
-                                alias: "",
+                                pseudo: "",
                                 imageUrl: "",
 
                             }
                         });
                         account.save().then(() => {
                             console.log("account created successfully", account);
-                            res.status(201).json({ message: 'Utilisateur créé !', user: { userId: account._id, email: req.body.email, roles: account.account.roles } });
+                            res.status(201).json({ message: 'Utilisateur créé !', user: { userId: account._id, isAdmin: account.profile.isAdmin } });
                         }).catch(error => {
                             console.log("Erreur création du compte utilisateur !", error);
                             res.status(400).json({ message: 'Erreur création du compte utilisateur !', error: error });
@@ -49,11 +47,11 @@ exports.signup = (req, res, next) => {
 
 //Fonction login
 exports.login = (req, res, next) => {
-    User.newUserModel.findOne({ email: req.body.email })
+    User.findOne({ email: req.body.email })
         .then(account => {
             if (!account) {
                 return res.status(401).json({ message: 'Utilisateur non trouvé !' });
-            } else if (!account.account.isActif) {
+            } else if (!account.profile.isActif) {
                 return res.status(401).json({ message: "Le compte n'est pas actif !" });;
             }
             //Utilisation de bcrypt pour le hash du password

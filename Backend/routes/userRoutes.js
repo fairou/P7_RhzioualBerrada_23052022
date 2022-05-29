@@ -6,7 +6,8 @@ const router = express.Router();
 //Importation de auth pour la sécurité des routes
 const auth = require('../middlewares/auth');
 //Imporation de multer pour les images
-const multer = require('../middlewares/multer-config');
+const multer = require('../middlewares/multer-config-profiles');
+
 
 //Imporatation du controller des utilisateurs
 const usrCtrl = require('../controllers/userController');

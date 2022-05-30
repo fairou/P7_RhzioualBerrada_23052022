@@ -11,7 +11,7 @@ const UserSchema = mongoose.Schema({
         firstname: { type: String, required: false },
         lastname: { type: String, required: false },
         pseudo: { type: String, required: false },
-        imageUrl: { type: String, default: "http://localhost:3000/images/profiles.jpg" },
+        imageUrl: { type: String, required: false },
         isAdmin: { type: Boolean, default: false },
         isActif: { type: Boolean, default: true },
 

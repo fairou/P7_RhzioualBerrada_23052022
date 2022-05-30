@@ -15,7 +15,7 @@ exports.getAllUsers = (req, res, next) => {
     );
 };
 
-//Fonction pour éditer le profile de l'utilisateur
+//Fonction pour éditer l'acces du profile de l'utilisateur
 exports.editUserAccess = (req, res, next) => {
     User.findOne({ _id: req.params.id })
         .then((user) => {
@@ -24,10 +24,19 @@ exports.editUserAccess = (req, res, next) => {
             } else {
                 // todo: modifier le statut du compte utilisateur IsActif
 
-                //User.updateOne({})
-                console.log(req.body);
+                User.updateOne({ _id: req.params.id }, {
+                    $set: {
+                        "profile.isActif": req.body.isActif,
+                        "profile.isAdmin": req.body.isAdmin,
+                    }
+                }).then(() => {
+                    return res.status(200).json({ message: "Utilisateur modifié" });
+                }).catch(error => {
+                    console.log("erreur modification compte utilisateur", error);
+                    res.status(500).json({ error: error });
+                });
 
-                return res.status(200).json({ error: "Utilisateur modifié" });
+
             }
         })
         .catch(error => {

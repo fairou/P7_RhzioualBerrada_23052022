@@ -6,6 +6,7 @@ const mongoose = require('mongoose');
 
 const CommentSchema = mongoose.Schema({
     comment: { type: String, },
+    userId: { type: String, required: true },
     timestamp: { type: Date, default: new Date(), },
 });
 

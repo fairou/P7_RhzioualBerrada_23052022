@@ -17,10 +17,56 @@ exports.getUserInfo = (req, res, next) => {
         });
 };
 
-//Fonction pour éditer le profile de l'utilisateur
+
 exports.editUserInfo = (req, res, next) => {
     User.findOne({ _id: req.params.id })
         .then((user) => {
+            var userObjects;
+            if (!user) {
+                return res.status(403).json({ error: "Accès non autorisé" });
+            } else {
+                if (req.file) {
+                    if (user.profile.imageUrl) {
+                        const filename = user.profile.imageUrl.split('/images/profiles/')[1];
+                        console.log('filename', filename);
+                        fs.unlink(`images/profiles/${filename}`, (err) => {
+                            if (err) {
+                                console.log('error deleting file', err);
+                            }
+                        });
+                    }
+                    userObjects = JSON.parse(req.body.user);
+                    userObjects.profile.imageUrl = `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}`;
+
+                } else {
+                    userObjects = req.body;
+                    userObjects.profile.imageUrl = user.profile.imageUrl;
+                }
+
+                User.updateOne({ _id: req.params.id }, {
+                        $set: userObjects
+                    }).then(() => {
+                        res.status(200).json({ message: 'Profil modifié !' });
+                    })
+                    .catch(error => {
+                        console.log('error !', error);
+                        res.status(400).json({ message: 'Erreur lors de la modification du profile', error: error });
+                    });
+
+            }
+        })
+        .catch(error => {
+            console.log(error);
+            res.status(500).json({ error: error });
+        });
+
+};
+
+//Fonction pour éditer le profile de l'utilisateur
+exports.editUserInfo_old = (req, res, next) => {
+    User.findOne({ _id: req.params.id })
+        .then((user) => {
+
             if (!user) {
                 return res.status(403).json({ error: "Accès non autorisé" });
             } else {
@@ -36,28 +82,22 @@ exports.editUserInfo = (req, res, next) => {
                 }
 
                 const userObject = req.file ? {
-                    //"profile.imageUrl": `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}`,
                     ...JSON.parse(req.body.user)
-
                 } : {...req.body };
+
+
+
+                if (req.file) {
+                    userObject.profile.imageUrl = `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}`;
+
+                } else {
+                    userObject.profile.imageUrl = user.profile.imageUrl;
+                }
+
                 User.updateOne({ _id: req.params.id }, {
                         $set: userObject
                     }).then((user) => {
-                        if (req.file) {
-                            User.updateOne({ _id: req.params.id }, {
-                                $set: {
-                                    "profile.imageUrl": `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}`
-                                }
-                            }).then(() => {
-                                res.status(200).json({ message: 'Profil modifié !' });
-                            }).catch(error => {
-                                console.log('error upload photo!', error);
-                                res.status(400).json({ message: 'Erreur lors de la modification de la photo du profile', error: error });
-                            });
-                        } else {
-                            res.status(200).json({ message: 'Profil modifié !' });
-                        }
-
+                        res.status(200).json({ message: 'Profil modifié !' });
                     })
                     .catch(error => {
                         console.log('error !', error);

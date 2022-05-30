@@ -12,6 +12,8 @@ const adminCtrl = require('../controllers/adminController');
 //Création des routes
 router.get('/users', auth, adminCtrl.getAllUsers);
 router.put('/users/:id', auth, adminCtrl.editUserAccess);
+router.delete('/users/:id', auth, adminCtrl.deleteUser);
+
 // router.get('/posts/:id', auth, adminCtrl.getOnePost);
 
 

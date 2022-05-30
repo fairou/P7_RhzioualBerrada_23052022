@@ -21,5 +21,15 @@ exports.createPost = (req, res, next) => {
 };
 
 exports.getPost = (req, res, next) => {
+    Post.postModel.findOne({ _id: req.params.id })
+        .then((post) => {
 
+            res.status(200).json(post);
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(404).json({
+                error: error
+            });
+        });
 }

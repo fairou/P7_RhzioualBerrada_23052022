@@ -1,25 +1,16 @@
 //Importation de mongoose
 const mongoose = require('mongoose');
+//Importation de mongoose-unique-validator
+const uniqueValidator = require('mongoose-unique-validator');
 
 //Creation du model pour les utilisateurs
-
-const UserSchema = mongoose.Schema({
+const userSchema = mongoose.Schema({
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
-    profile: {
-
-        firstname: { type: String, required: false },
-        lastname: { type: String, required: false },
-        pseudo: { type: String, required: false },
-        imageUrl: { type: String, required: false },
-        isAdmin: { type: Boolean, default: false },
-        isActif: { type: Boolean, default: true },
-
-    },
-    timestamp: { type: Date, default: new Date(), }
+    isAdmin: { type: Boolean, default: false },
+    isActif: { type: Boolean, default: true }
 });
 
-
-
+userSchema.plugin(uniqueValidator);
 //Exportation du model
-module.exports = mongoose.model('users', UserSchema);
+module.exports = mongoose.model('users', userSchema);

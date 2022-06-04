@@ -1,52 +1,37 @@
-const User = require('../models/UserModel');
-
-//Fonction récupérer tous les utilisateurs
-exports.getAllUsers = (req, res, next) => {
-    User.find().then(
-        (user) => {
-            res.status(200).json(user);
-        }
-    ).catch(
-        (error) => {
-            res.status(400).json({
-                error: error
-            });
-        }
-    );
-};
+const Post = require('../models/postModel');
 
 //Fonction pour éditer l'acces du profile de l'utilisateur
-exports.editUserAccess = (req, res, next) => {
+exports.modifyposts = (req, res, next) => {
     User.findOne({ _id: req.params.id })
-        .then((user) => {
-            if (!user) {
+        .then((post) => {
+            if (!post) {
                 return res.status(403).json({ error: "Utiliser not found" });
             } else {
-                // todo: modifier le statut du compte utilisateur IsActif
+                if (req.file) {
+                    const filename = post.imageUrl.split('/images/')[1];
+                    fs.unlink(`images/${filename}`, (err) => {
+                        if (err) {
+                            console.log('error deleting file', err);
+                        }
+                    });
+                }
 
-                User.updateOne({ _id: req.params.id }, {
-                    $set: {
-                        "profile.isActif": req.body.isActif,
-                        "profile.isAdmin": req.body.isAdmin,
-                    }
-                }).then(() => {
-                    return res.status(200).json({ message: "Utilisateur modifié" });
-                }).catch(error => {
-                    console.log("erreur modification compte utilisateur", error);
-                    res.status(500).json({ error: error });
-                });
+                const postsObject = req.file ? {
+                    ...JSON.parse(req.body.post),
+                    imageUrl: `${req.protocol}://${req.get('host')}/images/${req.file.filename}`
+                } : {...req.body };
 
+                posts.updateOne({ _id: req.params.id }, {...postsObject, _id: req.params.id })
+                    .then(() => res.status(200).json({ message: 'Objet modifié !' }))
+                    .catch(error => res.status(400).json({ error }));
 
             }
         })
-        .catch(error => {
-            console.log(error);
-            res.status(500).json({ error: error });
-        });
+        .catch(error => res.status(500).json({ error }));
 
 };
 
-exports.deleteUser = (req, res, next) => {
+exports.deleteposts = (req, res, next) => {
     User.findOne({ _id: req.params.id })
         .then(user => {
             if (!user) {

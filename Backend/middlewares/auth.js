@@ -7,10 +7,13 @@ require('dotenv').config();
 module.exports = (req, res, next) => {
     try {
         //Token lié à l'id de l'utilisateur
+
         const token = req.headers.authorization.split(' ')[1];
         const decodedToken = jwt.verify(token, process.env.Token);
+
         const userId = decodedToken.userId;
-        req.auth = { userId };
+        const isadmin = decodedToken.isAdmin;
+        req.auth = { userId, isadmin };
         if (req.body.userId && req.body.userId !== userId) {
             throw 'Invalid user ID';
         } else {

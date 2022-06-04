@@ -13,7 +13,6 @@ const path = require('path');
 require("dotenv").config();
 
 //Imporation des différentes routes
-const authRoutes = require('./routes/authRoutes');
 const userRoutes = require('./routes/userRoutes');
 const postRoutes = require('./routes/postRoutes');
 const adminRoutes = require('./routes/adminRoutes');
@@ -54,8 +53,7 @@ app.use(cors({
 // pour analyser le corps de la requête. prise en charge de json envoyé par le front dans le body
 app.use(express.json());
 //Middleware pour l'authentification
-app.use('/api/auth', authRoutes);
-app.use('/api/user', userRoutes);
+app.use('/api/auth', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/admin', adminRoutes);
 

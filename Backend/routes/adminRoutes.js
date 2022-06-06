@@ -8,12 +8,13 @@ const auth = require('../middlewares/auth');
 
 //Imporatation du controller des utilisateurs
 const adminCtrl = require('../controllers/adminController');
+// const userCtrl = require('../controllers/userController');
+// const postCtrl = require('../controllers/postController');
 
 //Création des routes
-router.put('/users/:id', auth, adminCtrl.modifyposts);
-router.delete('/users/:id', auth, adminCtrl.deleteposts);
-
-// router.get('/posts/:id', auth, adminCtrl.getOnePost);
+router.put('/users/:id', auth, adminCtrl.editUserAccess);
+router.put('/users/:id', auth, adminCtrl.deleteUser);
+router.put('/users/:id', auth, adminCtrl.getAllUsers);
 
 
 //Exportation du router

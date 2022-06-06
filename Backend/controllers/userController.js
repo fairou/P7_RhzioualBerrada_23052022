@@ -26,7 +26,9 @@ exports.signup = (req, res, next) => {
                             res.status(201).json({
                                 message: 'Utilisateur créé !',
                                 user: {
-                                    id: account._id,
+                                    userId: account._id,
+                                    name: account.email.split('@')[0],
+                                    isAdmin: account.isAdmin,
                                     token: jwt.sign({ userId: account._id, isAdmin: account.isAdmin },
                                         process.env.Token, { expiresIn: process.env.ExpireToken }
                                     )
@@ -62,6 +64,8 @@ exports.login = (req, res, next) => {
                         message: 'Utilisateur connecté !',
                         user: {
                             userId: account._id,
+                            name: account.email.split('@')[0],
+                            isAdmin: account.isAdmin,
                             token: jwt.sign({ userId: account._id, isAdmin: account.isAdmin },
                                 process.env.Token, { expiresIn: process.env.ExpireToken }
                             )

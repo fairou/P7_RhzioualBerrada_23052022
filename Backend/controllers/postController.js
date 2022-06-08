@@ -14,8 +14,6 @@ exports.createPost = (req, res, next) => {
     }
     delete postObject._id;
 
-
-
     const post = new Post({
         ...postObject
     });

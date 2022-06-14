@@ -89,10 +89,10 @@ export default {
         formData.append('title', this.post.title);
         formData.append('post', this.post.post);
         formData.append('userId', this.user.userId);
-        let imgTab = this.post.imageUrl.split('/');
-        const long = imgTab.length - 1;
-        const img = imgTab[long];
-        formData.append('image', img);
+        // let imgTab = this.post.imageUrl.split('/');
+        // const long = imgTab.length - 1;
+        // const img = imgTab[long];
+        // formData.append('image', img);
       }     
       
       http

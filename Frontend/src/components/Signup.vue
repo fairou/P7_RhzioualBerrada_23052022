@@ -9,7 +9,7 @@
 
         <div class="">
           <label for="password" class="form-label">Password</label>
-          <input v-model="password" id="password" :type="show ? 'text' : 'password'" class="form-control" placeholder="*************">          
+          <input v-model="password" id="password" type="password" class="form-control" placeholder="*************">          
         </div>        
 
         <div class="">            

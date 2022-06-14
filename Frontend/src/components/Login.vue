@@ -9,7 +9,7 @@
         </div>
         <div class="mb-3">
           <label for="password" class="">Password</label>
-          <input v-model="password" id="password" :type="show ? 'text' : 'password'"
+          <input v-model="password" id="password" type="password"
            name="password" required>
         </div>        
         <div class="">            

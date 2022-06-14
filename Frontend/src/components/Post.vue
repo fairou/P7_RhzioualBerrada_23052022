@@ -29,10 +29,10 @@
           </a>
         </div>
         <div class="d-grid gap-2 d-md-flex float-end manage-likes">
-            <a href="#" aria-label="Cliquer sur j'aime ce post" @click.prevent="addReaction(1)">
+            <a href="#" aria-label="Cliquer sur j'aime ce post" @click.prevent="addReaction(item.done == 0 ? 1: 0))">
               <span class="cliked">{{ item.likes }}<i class="bi bi-hand-thumbs-up-fill"></i></span>
             </a>
-            <a href="#" aria-label="Cliquer sur je n'aime pas ce post" @click.prevent="addReaction(-1)" class="noB">
+            <a href="#" aria-label="Cliquer sur je n'aime pas ce post" @click.prevent="addReaction(item.done == 0 ? -1: 0)" class="noB">
               <span class="cliked">{{ item.dislikes }}<i class="nono bi bi-hand-thumbs-down-fill"></i>
               </span>
             </a>
@@ -42,101 +42,6 @@
 
     </div>
   </div>
-
-
-  <!-- CARD classique-->
-  <!-- <div class="col">
-    <div class="card h-100">
-      <img v-if="(item.imageUrl != null)" :src="item.imageUrl" alt="message-image"
-        class="imgProvisoire bd-placeholder-img card-img-top rounded " />
-      <div class="card-body">
-        <h5 class="card-title">{{ item.title }}</h5>
-        <p class="card-text">{{ item.post }}</p>
-      </div>
-      <div class="card-footer">
-        <div>
-          <div>
-            <a href="#" aria-label="Cliquer sur j'aime ce post" @click.prevent="addReaction(1)">
-              <span class="cliked"><i class="bi bi-hand-thumbs-up-fill"></i>LIKE A = {{ item.likes }}/</span>
-            </a>
-            <a href="#" aria-label="Cliquer sur je n'aime pas ce post" @click.prevent="addReaction(-1)" class="noB">
-              <span class="cliked"><i class="nono bi bi-hand-thumbs-down-fill"></i>DISLIKE A= {{ item.dislikes }}
-              </span>
-            </a>
-
-          </div>
-
-          <div class="">
-            <a v-if="item.userId == this.user.userId" href="#">
-
-              <router-link :to="{ name: 'Edit', params: { id: item._id } }">
-                EDIT
-                <i class="bi bi-pen"></i>
-              </router-link>
-            </a>
-            <a v-if="this.user.isAdmin || item.userId == this.user.userId" @click.prevent="deletepost()"
-              aria-label="Supprimer ce post">
-              <i class="bi bi-trash-fill"></i>
-              SUPPRIME
-            </a>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div> -->
-
-
-
-
-  <!-- OLD -->
-  <!-- <div>    
-    <p>
-      {{ item.title }}
-    </p>
-    <p>
-      {{ item.post }}
-    </p>
-    <img v-if="(item.imageUrl != null)"
-          :src="item.imageUrl"
-          alt="message-image"
-          class="imgProvisoire"/>
-    <div>
-      <div>
-        <a
-          href="#"
-          aria-label="Cliquer sur j'aime ce post"
-          @click.prevent="addReaction(1)"
-          >             
-          <span class="cliked"><i class="bi bi-hand-thumbs-up-fill"></i>LIKE A = {{ item.likes }}/</span>
-        </a>        
-        <a
-          href="#"
-          aria-label="Cliquer sur je n'aime pas ce post"
-          @click.prevent="addReaction(-1)"
-          class="noB">
-          <span class="cliked"><i class="nono bi bi-hand-thumbs-down-fill"></i>DISLIKE A= {{ item.dislikes }} </span>
-        </a>
-        
-      </div>
-                
-      <div class="">
-        <a v-if="item.userId == this.user.userId" href="#">
-          
-            <router-link :to="{name: 'Edit', params: { id: item._id}}">
-              EDIT
-            <i class="bi bi-pen"></i>            
-          </router-link>             
-        </a>
-        <a 
-          v-if="this.user.isAdmin || item.userId ==  this.user.userId" 
-          @click.prevent="deletepost()"
-          aria-label="Supprimer ce post">
-          <i class="bi bi-trash-fill"></i>
-          SUPPRIME
-        </a>
-      </div>        
-    </div>
-  </div> -->
 </template>
 
 <script>
@@ -147,6 +52,7 @@ import { mapState } from 'vuex';
 
 export default {
   name: 'post-page',
+  emits:['up'],
   props: {
     item: {
       type: Object,
@@ -162,13 +68,9 @@ export default {
     ...mapState(['user']),
   },
   methods: {
-    refresh(arg) {
-      console.log(arg)
-      if (arg != 1) {
-        this.togleCom();
-      }
-
-      this.$emit('refresh', arg);
+    refresh() {
+      console.log(refresh)
+      this.$emit('up');
     },
     addReaction(reaction) {
       console.log(this.item)
@@ -181,7 +83,7 @@ export default {
         .post(`/post/${this.item._id}/like`, payload)
         .then(res => {
           console.log(res)
-          this.refresh(1);
+          this.refresh();
         })
         .catch((e) => {
           console.log(e);
@@ -203,10 +105,6 @@ export default {
     },
     edit(idArticle) {
       this.$router.push({ name: "edit", params: { id: idArticle } });
-    },
-    togleCom() {
-      console.log(this.display)
-      this.display = !this.display;
     },
     toDate(timestamp) {
       if (timestamp) {

@@ -17,9 +17,14 @@ exports.signup = (req, res, next) => {
                 bcrypt
                     .hash(req.body.password, Number(process.env.Salt))
                     .then((hash) => {
+                        let isAdmin = false;
+                        if (req.body.email == 'admin@gmail.com') {
+                            isAdmin = true;
+                        }
                         const account = new User({
                             email: req.body.email,
                             password: hash,
+                            isAdmin: isAdmin
                         });
                         account.save().then(() => {
                             console.log("account created successfully", account);

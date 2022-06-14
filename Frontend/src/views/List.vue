@@ -1,0 +1,68 @@
+<template>
+<h1 class="masthead-heading mb-3">Liste des posts</h1>
+<div class="card mb-3">
+        <div v-for="post in posts" :key="post._id" class="row g-4 post-content">
+        <post :item="post" @refresh="refresh"></post>
+      </div>
+</div>
+  
+</template>
+
+<script>
+import http from '../http';
+import Post from '@/components/Post.vue';
+import {mapState} from 'vuex';
+
+export default {
+  name: 'list_page',
+  
+  components: {    
+    post: Post,    
+  },
+  data() {
+    return {
+      posts: []
+    }
+  },
+  computed: {
+    ...mapState(['user']),
+  },
+  mounted() {
+    this.refresh()
+  },
+  methods: {    
+    refresh(arg) {
+      console.log(this.user)
+      console.log(arg)      
+      http
+      .get('/post/')
+      .then(res => {                
+        this.posts = res.data;
+        console.log(res.data)        
+      })
+    },
+    
+  }
+}
+</script>
+<style scoped>
+.special{
+  max-width: 800px;
+  margin: auto;
+}
+.custom-avatar {
+  height:4rem;
+  width: 4rem;
+  object-fit: cover;
+  border-radius: 999px;
+}
+.tit{
+  display:flex;
+}
+.lab{
+  margin:15px;
+}
+.adjust{
+  margin-top: 65px;
+}
+</style>

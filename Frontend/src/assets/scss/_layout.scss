@@ -1,0 +1,239 @@
+#app {
+    font-family: Avenir, Helvetica, Arial, sans-serif;
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-align: center;
+}
+
+
+/*#region Header*/
+
+.logo {
+    width: 200px
+}
+
+.bg-dark {
+    background-color: $primary!important;
+}
+
+.router-link-active {
+    font-weight: bold;
+    color: $white!important;
+    border-bottom: 2px solid $secondary;
+}
+
+.navbar-brand {
+    border-bottom: 0!important;
+}
+
+.btn-outline-light:hover {
+    color: $primary;
+    background-color: $secondary;
+}
+
+
+/*#endregion Header*/
+
+
+/*#region LoginForm*/
+
+.login-page {
+    width: 360px;
+    padding: 20px 0 0;
+    margin: auto;
+}
+
+.form {
+    position: relative;
+    z-index: 1;
+    background: $secondary;
+    max-width: 360px;
+    margin: 0 auto 100px;
+    padding: 45px;
+    text-align: center;
+    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+}
+
+.form input {
+    font-family: "Roboto", sans-serif;
+    outline: 0;
+    background: $white;
+    opacity: 0.8;
+    color: $third;
+    width: 100%;
+    border: 0;
+    margin: 0 0 15px;
+    padding: 15px;
+    box-sizing: border-box;
+    font-size: 14px;
+}
+
+.form button {
+    font-family: "Roboto", sans-serif;
+    text-transform: uppercase;
+    outline: 0;
+    background: $third;
+    width: 100%;
+    border: 0;
+    padding: 15px;
+    color: $white;
+    font-size: 14px;
+    -webkit-transition: all 0.3 ease;
+    transition: all 0.3 ease;
+    cursor: pointer;
+}
+
+.form button:hover,
+.form button:active,
+.form button:focus {
+    background: $third;
+    opacity: 0.8;
+}
+
+
+/*#endregion LoginForm*/
+
+
+/*#region Post*/
+
+.publish {
+    color: $third;
+    border-color: $third;
+    & i {
+        padding-right: 5px;
+    }
+}
+
+.publish:hover {
+    color: $white;
+    background-color: $third;
+}
+
+.card {
+    background-color: initial;
+    border: none;
+}
+
+.post-content {
+    // border: 1px solid $third;
+    margin-bottom: 28px;
+    background-color: $white;
+    border-radius: 5px
+}
+
+.card-body {
+    text-align: justify;
+    & .card-title {
+        width: 79%;
+    }
+    & .card-time {
+        width: 21%;
+    }
+    & .card-text {
+        min-height: 180px;
+    }
+    & .imgProvisoire {
+        height: 300px;
+        object-fit: fill;
+    }
+}
+
+.manage-container {
+    & .manage-edit {
+        width: 50%;
+    }
+    & .manage-likes {
+        width: 50%;
+    }
+}
+
+
+/*#endregion Post*/
+
+div.masthead {
+    position: relative;
+    overflow: hidden;
+    // padding-top: calc(7rem + 72px);
+    padding-bottom: 7rem;
+    background: linear-gradient(0deg, $secondary 0%, $primary 100%);
+    background-repeat: no-repeat;
+    background-position: center center;
+    background-attachment: scroll;
+    background-size: cover;
+    min-height: 855px;
+}
+
+div.masthead .masthead-content {
+    z-index: 1;
+    position: relative;
+}
+
+div.masthead .masthead-content .masthead-heading {
+    font-size: 4rem;
+}
+
+div.masthead .masthead-content .masthead-subheading {
+    font-size: 2rem;
+}
+
+div.masthead .bg-circle {
+    z-index: 0;
+    position: absolute;
+    border-radius: 100%;
+    background: linear-gradient(0deg, $primary 0%, $secondary 100%);
+}
+
+div.masthead .bg-circle-1 {
+    height: 90rem;
+    width: 90rem;
+    bottom: -55rem;
+    left: -30rem;
+}
+
+div.masthead .bg-circle-2 {
+    height: 50rem;
+    width: 50rem;
+    top: 0rem;
+    right: -25rem;
+}
+
+div.masthead .bg-circle-3 {
+    height: 20rem;
+    width: 20rem;
+    bottom: -10rem;
+    right: 5%;
+}
+
+div.masthead .bg-circle-4 {
+    height: 30rem;
+    width: 30rem;
+    top: 1rem;
+    right: 35%;
+}
+
+@media (min-width: 992px) {
+    // div.masthead {
+    //     padding-top: calc(10rem + 55px);
+    //     padding-bottom: 10rem;
+    // }
+    div.masthead .masthead-content .masthead-heading {
+        font-size: 80px;
+    }
+    div.masthead .masthead-content .masthead-subheading {
+        font-size: 60px;
+    }
+}
+
+
+/*#region mobile*/
+
+@media (max-width: 768px) {
+    /*#region Header*/
+    .navbar-collapse {
+        text-align: right;
+    }
+    /*#endregion Header*/
+}
+
+
+/*#endregion mobile*/

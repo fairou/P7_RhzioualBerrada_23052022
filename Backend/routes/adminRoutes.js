@@ -13,7 +13,6 @@ const adminCtrl = require('../controllers/adminController');
 
 //Création des routes
 router.put('/users/:id', auth, adminCtrl.editUserAccess);
-router.put('/users/:id', auth, adminCtrl.deleteUser);
 router.put('/users/:id', auth, adminCtrl.getAllUsers);
 
 

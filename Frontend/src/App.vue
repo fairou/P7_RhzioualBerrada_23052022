@@ -1,32 +1,51 @@
 <template>
-  <nav>
-    <router-link to="/">Accueil</router-link> 
-    <router-link to="/myposts">Mes posts</router-link>|
-    <router-link to="/users">Listes utilisateurs</router-link>|
-    <router-link to="/about">Profile</router-link>
-  </nav>
-  <router-view/>
+  <div class="" id="app">
+    <navbar :is-connected="isConnected"></navbar>
+    
+    <div class="masthead text-center ">
+    <div class="masthead-content">
+      <div class="container px-5">
+        
+        <router-view></router-view>
+        
+      </div>
+    </div>
+    <div class="bg-circle-1 bg-circle"></div>
+    <div class="bg-circle-2 bg-circle"></div>
+    <div class="bg-circle-3 bg-circle"></div>
+    <div class="bg-circle-4 bg-circle"></div>
+  </div>
+    
+  </div>
 </template>
 
-<style>
-#app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-}
+<script>
+import { mapState } from 'vuex';
+import NavBar from './components/NavBar'
 
-nav {
-  padding: 30px;
+export default {
+  name: 'App',
+  components: {
+    'navbar': NavBar
+  },
+  mounted() {
+    this.check();
+  },
+  methods: {
+    check() {
+      console.log(this.user.isConnect)
+      if (this.user.isConnect == false &&
+      this.$router.currentRoute.path != '/') {
+      this.$router.push('/');
+      }
+    }
+  },
+  computed: {
+    ...mapState(['user']),
+    
+    isConnected() {      
+      return (this.user.isConnect);
+    }
+  }
 }
-
-nav a {
-  font-weight: bold;
-  color: #2c3e50;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
-}
-</style>
+</script>

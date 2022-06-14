@@ -1,36 +1,58 @@
-import { createRouter, createWebHistory } from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import MyPostsView from '../views/MyPosts.vue'
-import UsersView from '../views/AllUsers.vue'
-const routes = [{
-        path: '/',
-        name: 'home',
-        component: HomeView
-    },
-    {
-        path: '/myposts',
-        name: 'myposts',
-        component: MyPostsView
-    },
-    {
-        path: '/users',
-        name: 'users',
-        component: UsersView
-    },
-    {
-        path: '/about',
-        name: 'about',
-        // route level code-splitting
-        // this generates a separate chunk (about.[hash].js) for this route
-        // which is lazy-loaded when the route is visited.
-        component: () =>
-            import ( /* webpackChunkName: "about" */ '../views/AboutView.vue')
-    }
-]
+import { createRouter, createWebHistory } from 'vue-router';
+import Home from '../views/Home.vue';
+import NotFound from '../views/NotFound.vue';
+import Welcome from '../components/Welcome.vue';
+import Login from '../components/Login.vue';
+import Signup from '../components/Signup.vue';
+import Add from '../components/Add.vue';
+import List from '../views/List.vue';
+const routes = [
+  {
+    path: '/',
+    name: 'Home',
+    component: Home
+  },
+  {  
+    path: '/login',
+    name: 'Login',
+    component: Login
+  },
+  {  
+    path: '/signup',
+    name: 'Signup',
+    component: Signup
+  },
+  {
+    path: '/add',
+    name: 'Add',
+    component: Add,
+  },
+  {
+    path: '/edit/:id',
+    name: 'Edit',
+    // lazy-loaded
+    component: () => import('../components/Edit.vue')
+  },
+  {
+    path: '/list',
+    name: 'list',
+    component: List,
+  },
+  {
+    path: '/welcome',
+    name: 'Welcome',
+    component: Welcome
+  },
+  {
+    path: '/:catchAll(.*)',
+    name: 'NotFound',
+    component: NotFound
+  }
+];
 
 const router = createRouter({
-    history: createWebHistory(process.env.BASE_URL),
-    routes
-})
+  history: createWebHistory(process.env.BASE_URL),
+  routes
+});
 
-export default router
+export default router;

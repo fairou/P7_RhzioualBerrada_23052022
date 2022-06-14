@@ -17,6 +17,7 @@ exports.createPost = (req, res, next) => {
     const post = new Post({
         ...postObject
     });
+
     post.save()
         .then(() => res.status(201).json({ message: 'post successfully added !', post: post }))
         .catch(error => {
@@ -64,13 +65,17 @@ exports.modifyPost = (req, res, next) => {
             if ((post.userId !== req.auth.userId) && !req.auth.isadmin) {
                 return res.status(403).json({ error: "Accès non autorisé" });
             } else {
-                if (req.file) {
+
+                if (req.file && req.imageUrl != undefined && req.imageUrl != '') {
                     const filename = post.imageUrl.split('/images/posts')[1];
-                    fs.unlink(`images/posts/${filename}`, (err) => {
-                        if (err) {
-                            console.log('error deleting file', err);
-                        }
-                    });
+                    fs.existsSync(`images/posts/${filename}`).then(() => {
+                        fs.unlink(`images/posts/${filename}`, (err) => {
+                            if (err) {
+                                console.log('error deleting file', err);
+                            }
+                        });
+                    })
+
                 }
 
                 const postObject = req.file ? {
@@ -80,11 +85,17 @@ exports.modifyPost = (req, res, next) => {
 
                 Post.updateOne({ _id: req.params.id }, {...postObject, _id: req.params.id })
                     .then(() => res.status(200).json({ message: 'post modifié !' }))
-                    .catch(error => res.status(400).json({ error }));
+                    .catch(error => {
+                        console.log('error update post - DB:', error);
+                        res.status(400).json({ error: error });
+                    });
 
             }
         })
-        .catch(error => res.status(500).json({ error }));
+        .catch(error => {
+            console.log('error update post:', error);
+            res.status(500).json({ error: error });
+        });
 };
 exports.deletePost = (req, res, next) => {
 

@@ -1,49 +1,58 @@
 <template>  
-    <div class="py-5">     
-          
-      <form name="upMsg" id="editMsg" class="container px-lg-5">
-        <div class="">
-          <div class="">
-            <label for="title" class="">Title</label>
-            <input v-model="post.title" id="title" name="title" class="newPseudo form-control">
-          </div>
-          <div class="">
-            <input v-model="post._id" id="idMessage" name="idMessage" type="hidden">
-            <label for="body" class="">Content</label>
-            <textarea
-              class="" rows="3"
-              name="content"
-              placeholder="Écrivez votre post"
-              v-model="post.post"
-              required>
-            </textarea>
-          </div>
-        
-          <div class="">            
-            <div class="">
-              <div class="">
-                <span id="preview"></span>
+
+<section class="h-100 gradient-form">
+    <div class="container py-5 h-100">
+      <div class="row d-flex justify-content-center align-items-center h-100">
+        <div class="col-xl-10">
+          <div class="card rounded-3 text-black">
+            <div class="row g-0">
+              <div class="text-center">
+                <h1 class="mt-1 pb-1">Modifier le post</h1>
               </div>
-              <img class="thumb" name="img" id="imgOrigin"
-                :src="post.imageUrl"
-                alt=""
-              />
-              <div class="">
-                <label for="formFile" class="">Insert Image</label>
-                <input class="" type="file" id="formFile" name="image" @change="uploadImage($event)">
-              </div>        
-            </div>
-          </div>
-          <div class="">            
-            <div class="text-right">        
-              <button type="submit"  @click.prevent="updateMessage" class="btn btn-outline-secondary publish">
-                <i class="fa fa-check" aria-hidden="true"></i>Valider
-              </button>
+              <form class="form">
+                <div class="row m-3">
+                  <div class="publish-sm text-end">
+                    <button type="submit" @click.prevent="updateMessage" class="btn btn-outline-secondary float-right">
+                      <i class="fa fa-paper-plane" aria-hidden="true"></i> Publier
+                    </button>
+                  </div>
+                </div>
+
+                <div class="m-3 text-left">
+                  <div class="mb-3">
+                    <label for="title" class="form-label">Titre</label>
+                    <input v-model="post.title" class="form-control" id="title" name="title"
+                      placeholder="Titre de votre message" required>
+                  </div>
+                  <div class="mb-3">
+                    <input v-model="post._id" id="idMessage" name="idMessage" type="hidden">
+                    <label for="body" class="form-label">Message</label>
+                    <textarea v-model="post.post" class="form-control" rows="3" id="body" name="body"
+                      placeholder="Écrivez votre message" required>
+                  </textarea>
+                  </div>
+                  <div class="mb-3">
+                    <label for="formFile" class="form-label">Ajouter une image</label>
+                    <input class="form-control" ref="fileInput" type="file" @input="pickFile">
+                  </div>
+                  <div class="mb-3">
+                    <div class="imagePreviewWrapper" :style="{ 'background-image': `url(${previewImage})` }"
+                      @click="selectImage"></div>
+                  </div>
+                </div>
+                <div class="m-3 publish">
+                  <button type="submit"  @click.prevent="updateMessage" class="btn btn-outline-secondary publish">
+                    <i class="fa fa-check" aria-hidden="true"></i>Valider
+                  </button>
+                </div>
+              </form>
             </div>
           </div>
         </div>
-      </form>
+      </div>
     </div>
+  </section>
+
 </template>
 
 <script>
@@ -55,7 +64,8 @@ export default {
   data() {
     return {      
       post: "",
-      file:''
+      file:'',
+      previewImage: null
     };
   }, 
   computed: {
@@ -67,6 +77,7 @@ export default {
         .then((response) => {     
           console.log(response.data);
           this.post = response.data;
+          this.previewImage=response.data.imageUrl;
         })
         .catch((e) => {
           console.log(e);
@@ -74,9 +85,6 @@ export default {
     },
     updateMessage() {
       const formData = new FormData();
-      // formData.append('title', this.post.title);
-      // formData.append('post', this.post.post);
-      // formData.append('userId', this.user.userId);
       
       if(this.file) {
         formData.append('post',JSON.stringify({
@@ -89,10 +97,6 @@ export default {
         formData.append('title', this.post.title);
         formData.append('post', this.post.post);
         formData.append('userId', this.user.userId);
-        // let imgTab = this.post.imageUrl.split('/');
-        // const long = imgTab.length - 1;
-        // const img = imgTab[long];
-        // formData.append('image', img);
       }     
       
       http
@@ -106,21 +110,24 @@ export default {
           alert(err)
         })      
     },
-    uploadImage(e) {
-      this.file = e.target.files[0];
-      let img = document.createElement("img");
-      img.file = this.file;
-      let preview =  document.getElementById('preview');
-      preview.appendChild(img); 
-      let reader = new FileReader();
-      reader.onload = ( function(aImg) { 
-        return function(e) { 
-          aImg.src = e.target.result; 
-        }; 
-      })(img);
-      document.getElementById('imgOrigin').remove();
-      reader.readAsDataURL(this.file);
-      console.log(this.file)
+    selectImage() {
+      this.$refs.fileInput.click()
+    },
+    pickFile() {
+
+
+
+      let input = this.$refs.fileInput
+      let file = input.files
+      if (file && file[0]) {
+        let reader = new FileReader
+        reader.onload = e => {
+          this.previewImage = e.target.result
+        }
+        this.file=file[0];
+        reader.readAsDataURL(file[0])
+        this.$emit('input', file[0])
+      }
     }
   },
   mounted() {
@@ -130,19 +137,14 @@ export default {
 }
 </script>
 <style scoped>
-
-.thumb{
-  height:150px;
-  max-width:100%;
+.imagePreviewWrapper {
+  background-repeat: no-repeat;
+  width: 250px;
+  height: 250px;
+  display: block;
+  cursor: pointer;
+  margin: 0 auto 30px;
+  background-size: contain;
+  background-position: center center;
 }
-#preview{
-  width: 150px;
-  display: flex;
-  height: 150px;
-}
-#preview img{
-  width: 100%;
-  
-}
-
 </style>

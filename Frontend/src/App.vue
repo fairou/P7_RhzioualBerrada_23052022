@@ -1,10 +1,10 @@
 <template>
-  <div class="" id="app">
+  <div class="vh-100" id="app">
     <navbar :is-connected="isConnected"></navbar>
 
-    <div class="masthead text-center ">
+    <div class="masthead text-center">
       <div class="masthead-content">
-        <div class="container px-5">
+        <div class="container-fluid h-custom">
 
           <router-view></router-view>
 
@@ -15,6 +15,7 @@
       <div class="bg-circle-3 bg-circle"></div>
       <div class="bg-circle-4 bg-circle"></div>
     </div>
+
 
   </div>
 </template>
@@ -49,3 +50,4 @@ export default {
   }
 }
 </script>
+

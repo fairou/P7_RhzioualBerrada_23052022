@@ -35,120 +35,62 @@
 /*#endregion Header*/
 
 
-/*#region LoginForm*/
+/*#region Login*/
 
-.login-page {
-    width: 360px;
-    padding: 20px 0 0;
-    margin: auto;
+.gradient-custom-2 {
+    /* fallback for old browsers */
+    // background: #fccb90;
+    /* Chrome 10-25, Safari 5.1-6 */
+    background: -webkit-linear-gradient(to right, $secondary, $primary);
+    /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+    background: linear-gradient(to right, $secondary, $primary);
 }
 
-.form {
-    position: relative;
-    z-index: 1;
-    background: $secondary;
-    max-width: 360px;
-    margin: 0 auto 100px;
-    padding: 45px;
-    text-align: center;
-    box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
-}
-
-.form input {
-    font-family: "Roboto", sans-serif;
-    outline: 0;
-    background: $white;
-    opacity: 0.8;
-    color: $third;
-    width: 100%;
-    border: 0;
-    margin: 0 0 15px;
-    padding: 15px;
-    box-sizing: border-box;
-    font-size: 14px;
-}
-
-.form button {
-    font-family: "Roboto", sans-serif;
-    text-transform: uppercase;
-    outline: 0;
-    background: $third;
-    width: 100%;
-    border: 0;
-    padding: 15px;
-    color: $white;
-    font-size: 14px;
-    -webkit-transition: all 0.3 ease;
-    transition: all 0.3 ease;
-    cursor: pointer;
-}
-
-.form button:hover,
-.form button:active,
-.form button:focus {
-    background: $third;
-    opacity: 0.8;
-}
-
-
-/*#endregion LoginForm*/
-
-
-/*#region Post*/
-
-.publish {
-    color: $third;
-    border-color: $third;
-    & i {
-        padding-right: 5px;
+section {
+    .card {
+        border: 0;
     }
 }
 
-.publish:hover {
-    color: $white;
-    background-color: $third;
-}
-
-.card {
-    background-color: initial;
-    border: none;
-}
-
-.post-content {
-    // border: 1px solid $third;
-    margin-bottom: 28px;
-    background-color: $white;
-    border-radius: 5px
-}
-
-.card-body {
-    text-align: justify;
-    & .card-title {
-        width: 79%;
-    }
-    & .card-time {
-        width: 21%;
-    }
-    & .card-text {
-        min-height: 180px;
-    }
-    & .imgProvisoire {
-        height: 300px;
-        object-fit: fill;
+@media (min-width: 768px) {
+    .gradient-form {
+        height: 100vh !important;
     }
 }
 
-.manage-container {
-    & .manage-edit {
-        width: 50%;
+@media (min-width: 769px) {
+    .gradient-custom-2 {
+        border-top-right-radius: .3rem;
+        border-bottom-right-radius: .3rem;
     }
-    & .manage-likes {
-        width: 50%;
+}
+
+@media (max-width: 767px) {
+    .mb-4,
+    .pb-4,
+    .py-5 {
+        margin-bottom: 0!important;
+        padding-bottom: 0!important;
+    }
+    .mb-5 {
+        margin-bottom: 0!important;
+    }
+    .form {
+        padding: 0px 0 10px 0!important;
+        button {
+            padding: 5px 15px!important;
+        }
+    }
+    .publish-sm {
+        display: block!important;
+    }
+    .publish {
+        display: none!important;
     }
 }
 
 
-/*#endregion Post*/
+/*#endregion Login*/
 
 
 /*#region Master*/
@@ -156,14 +98,13 @@
 div.masthead {
     position: relative;
     overflow: hidden;
-    // padding-top: calc(7rem + 72px);
     padding-bottom: 7rem;
     background: linear-gradient(0deg, $secondary 0%, $primary 100%);
     background-repeat: no-repeat;
     background-position: center center;
     background-attachment: scroll;
     background-size: cover;
-    min-height: 855px;
+    min-height: 900px;
 }
 
 div.masthead .masthead-content {
@@ -230,6 +171,57 @@ div.masthead .bg-circle-4 {
 
 /*#endregion Master*/
 
+h1 {
+    // color: $white;
+    font-size: 60px;
+}
+
+.form {
+    position: relative;
+    z-index: 1;
+    // background: $secondary;
+    text-align: center;
+    // box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.2), 0 5px 5px 0 rgba(0, 0, 0, 0.24);
+    padding: 30px 0;
+    button {
+        font-family: "Roboto", sans-serif;
+        // text-transform: uppercase;
+        outline: 0;
+        background: $third;
+        border: 0;
+        color: $white;
+        font-size: 14px;
+        -webkit-transition: all 0.3 ease;
+        transition: all 0.3 ease;
+        cursor: pointer;
+        & i {
+            margin-right: 10px;
+        }
+    }
+    button:hover,
+    button:active,
+    button:focus {
+        background: $third;
+        opacity: 0.8;
+    }
+}
+
+.welcome {
+    margin-top: calc(7rem + 72px);
+}
+
+.text-left {
+    text-align: left!important;
+}
+
+.publish-sm {
+    display: none;
+}
+
+.publish {
+    display: block;
+}
+
 
 /*#region mobile*/
 
@@ -239,7 +231,30 @@ div.masthead .bg-circle-4 {
         text-align: right;
     }
     /*#endregion Header*/
+    h1 {
+        font-size: 30px;
+    }
 }
 
 
 /*#endregion mobile*/
+
+// Region Post
+.posted-by {
+    margin-bottom: 0!important;
+}
+
+.posts {
+    max-height: 670px;
+    overflow: hidden;
+    overflow-y: scroll;
+    padding-top: 20px;
+}
+
+.like {
+    color: $success;
+}
+
+.dislike {
+    color: $error;
+}

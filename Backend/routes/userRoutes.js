@@ -4,6 +4,10 @@ const rateLimit = require('express-rate-limit');
 
 //Utilisation de la methode Router
 const router = express.Router();
+//Importation de auth pour la sécurité des routes
+const auth = require('../middlewares/auth');
+//Imporation de multer pour les images
+const multer = require('../middlewares/multer-config-profiles');
 
 //Imporatation du controller des utilisateurs
 const userCtrl = require('../controllers/userController');
@@ -22,7 +26,7 @@ const limiter = rateLimit({
 
 router.post('/signup', userCtrl.signup);
 router.post('/login', userCtrl.login);
-router.get('/:id', userCtrl.getUserInfo);
-
+router.get('/:id', auth, userCtrl.getUserInfo);
+router.put('/:id', auth, multer, userCtrl.editUserInfo);
 //Exportation du router
 module.exports = router;

@@ -118,7 +118,7 @@ exports.getUserInfo = (req, res, next) => {
                     nom: user.nom,
                     prenom: user.prenom,
                     email: user.email,
-                    name: user.email.split("@")[0],
+                    name: (user.nom || user.prenom) ? user.nom + ' ' + user.prenom : user.email.split("@")[0],
                     isAdmin: user.isAdmin,
                     isActif: user.isActif,
                 },
@@ -134,9 +134,10 @@ exports.getUserInfo = (req, res, next) => {
 
 //Fonction pour éditer le profile de l'utilisateur
 exports.editUserInfo = (req, res, next) => {
+
     User.findOne({ _id: req.params.id })
         .then((user) => {
-            if (user._id !== req.auth.userId && !req.auth.isadmin) {
+            if (user._id.toString() !== req.auth.userId.toString() && !req.auth.isadmin) {
                 return res.status(403).json({ error: "Accès non autorisé" });
             } else {
                 if (req.file) {
@@ -169,10 +170,14 @@ exports.editUserInfo = (req, res, next) => {
                         }
                     };
                 }
-
+                console.log('req.body', req.body);
+                console.log('userObject', userObject);
                 var filter = { _id: req.params.id };
                 User.updateOne(filter, userObject)
-                    .then(() => res.status(200).json({ message: "user modifié !" }))
+                    .then((user) => {
+                        console.log('user', user);
+                        res.status(200).json({ message: "user modifié !", user: user });
+                    })
                     .catch((error) => {
                         console.log("error update user - DB:", error);
                         res.status(400).json({ error: error });

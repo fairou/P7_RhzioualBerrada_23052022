@@ -57,6 +57,8 @@ app.use('/api/auth', userRoutes);
 app.use('/api/post', postRoutes);
 app.use('/api/admin', adminRoutes);
 
+app.use('/api/user', userRoutes);
+
 //Middleware pour le dossier images
 app.use('/images', express.static(path.join(__dirname, 'images')));
 

@@ -88,3 +88,24 @@ exports.login = (req, res, next) => {
             res.status(200).json({ error })
         });
 };
+
+//Fonction pour récupérer le profile de l'utilisateur
+exports.getUserInfo = (req, res, next) => {
+
+    User.findOne({ _id: req.params.id }).select("-password")
+        .then((user) => {
+            res.status(200).json({
+                user: {
+                    userId: user._id,
+                    name: user.email.split('@')[0],
+                    isAdmin: user.isAdmin
+                }
+            });
+        })
+        .catch((error) => {
+            console.log(error);
+            res.status(404).json({
+                error: error
+            });
+        });
+};

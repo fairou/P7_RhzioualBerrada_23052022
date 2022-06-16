@@ -73,7 +73,7 @@ exports.modifyPost = (req, res, next) => {
                         });
                     });
                 }
-                console.log('req:', req.body.post);
+
                 const postObject = req.file ? {
                     ...JSON.parse(req.body.post),
                     imageUrl: `${req.protocol}://${req.get("host")}/images/posts/${
@@ -144,6 +144,7 @@ exports.deletePost = (req, res, next) => {
 //Fonction Like ou Dislike  d'un post
 exports.likeDislikePost = (req, res, next) => {
     //Récupération de l'id du post
+
     Post.findOne({ _id: req.params.id })
         .then((post) => {
             switch (req.body.like) {

@@ -87,6 +87,20 @@ section {
     .publish {
         display: none!important;
     }
+    .like-actions-sm {
+        margin-right: 20px;
+    }
+    .edit-actions,
+    .like-actions {
+        display: flex!important;
+        & a {
+            text-decoration: none;
+        }
+    }
+    .like,
+    .dislike {
+        display: flex;
+    }
 }
 
 

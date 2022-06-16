@@ -55,7 +55,7 @@ export default {
     refresh() {
       http.get("/post/").then((res) => {
         this.posts = res.data;
-        console.log(res.data);
+        //console.log(res.data);
         for (let i in this.posts) {
           this.posts[i].liked = false;
            this.posts[i].disliked = false;

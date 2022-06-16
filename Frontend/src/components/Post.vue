@@ -14,7 +14,7 @@
         <p class="card-text">{{ item.post }}</p>
         <div class="row justify-content-between">
           <div class="col-4">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-start">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-start edit-actions">
 
               <a v-if="item.userId == this.user.userId" href="#" aria-label="Editer post">
                 <router-link :to="{ name: 'Edit', params: { id: item._id } }" class="btn btn-success">
@@ -28,8 +28,8 @@
 
             </div>
           </div>
-          <div class="col-4 text-end">
-            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+          <div class="col-4 text-end like-actions-sm">
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end like-actions">
               <a href="#" aria-label="Cliquer sur j'aime ce post" @click.prevent="addReaction(1)">
                 <span class="btn btn-light like">{{ item.likes }}<i class="fa fa-solid fa-thumbs-up like"></i></span>
               </a>

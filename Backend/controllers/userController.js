@@ -119,6 +119,7 @@ exports.getUserInfo = (req, res, next) => {
                     prenom: user.prenom,
                     email: user.email,
                     name: (user.nom || user.prenom) ? user.nom + ' ' + user.prenom : user.email.split("@")[0],
+                    imageUrl: user.imageUrl ? user.imageUrl : '',
                     isAdmin: user.isAdmin,
                     isActif: user.isActif,
                 },
@@ -134,7 +135,7 @@ exports.getUserInfo = (req, res, next) => {
 
 //Fonction pour éditer le profile de l'utilisateur
 exports.editUserInfo = (req, res, next) => {
-
+    console.log('req.body.user', req.body);
     User.findOne({ _id: req.params.id })
         .then((user) => {
             if (user._id.toString() !== req.auth.userId.toString() && !req.auth.isadmin) {
@@ -143,8 +144,8 @@ exports.editUserInfo = (req, res, next) => {
                 if (req.file) {
                     userObject = {
                         $set: {
-                            nom: JSON.parse(req.body.user).nom,
-                            prenom: JSON.parse(req.body.user).prenom,
+                            nom: req.body.nom,
+                            prenom: req.body.prenom,
                             imageUrl: `${req.protocol}://${req.get('host')}/images/profiles/${req.file.filename}`
                         }
                     };

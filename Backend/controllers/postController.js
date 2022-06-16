@@ -63,23 +63,28 @@ exports.modifyPost = (req, res, next) => {
             if (post.userId !== req.auth.userId && !req.auth.isadmin) {
                 return res.status(403).json({ error: "Accès non autorisé" });
             } else {
-                if (req.file && req.imageUrl != undefined && req.imageUrl != "") {
-                    const filename = post.imageUrl.split("/images/posts")[1];
-                    fs.existsSync(`images/posts/${filename}`).then(() => {
-                        fs.unlink(`images/posts/${filename}`, (err) => {
-                            if (err) {
-                                console.log("error deleting file", err);
-                            }
-                        });
-                    });
-                }
+                postObject = {
+                    userId: req.body.userId,
+                    title: req.body.title,
+                    post: req.body.post,
+                };
+                if (req.file) {
+                    postObject.imageUrl = `${req.protocol}://${req.get('host')}/images/posts/${req.file.filename}`;
+                    // si post avec image et qu'il y a une nouvelle image
+                    if (post.imageUrl != undefined && post.imageUrl != "") {
+                        const filename = post.imageUrl.split("/images/posts/")[1];
+                        console.log(filename)
+                        console.log(req.file.filename)
+                        if (filename != req.file.filename) {
+                            fs.unlink(`images/posts/${filename}`, (err) => {
+                                if (err) {
+                                    console.log("error deleting file", err);
+                                }
+                            });
+                        }
 
-                const postObject = req.file ? {
-                    ...JSON.parse(req.body.post),
-                    imageUrl: `${req.protocol}://${req.get("host")}/images/posts/${
-                req.file.filename
-              }`,
-                } : {...req.body };
+                    }
+                }
                 console.log('postObject:', postObject);
 
                 Post.updateOne({ _id: req.params.id }, {...postObject, _id: req.params.id })

@@ -9,10 +9,10 @@
               <div class="text-center">
                 <h1 class="mt-1 pb-1">Modifier le post</h1>
               </div>
-              <form class="form">
+              <form class="form" @submit="checkForm">
                 <div class="row m-3">
                   <div class="publish-sm text-end">
-                    <button type="submit" @click.prevent="updateMessage" class="btn btn-outline-secondary float-right">
+                    <button type="submit" class="btn btn-outline-secondary float-right">
                       <i class="fa fa-paper-plane" aria-hidden="true"></i> Publier
                     </button>
                   </div>
@@ -22,13 +22,13 @@
                   <div class="mb-3">
                     <label for="title" class="form-label">Titre</label>
                     <input v-model="post.title" class="form-control" id="title" name="title"
-                      placeholder="Titre de votre message" required>
+                      placeholder="Titre de votre message" minlength="5" required>
                   </div>
                   <div class="mb-3">
                     <input v-model="post._id" id="idMessage" name="idMessage" type="hidden">
                     <label for="body" class="form-label">Message</label>
                     <textarea v-model="post.post" class="form-control" rows="3" id="body" name="body"
-                      placeholder="Écrivez votre message" required>
+                      placeholder="Écrivez votre message" minlength="5" required>
                   </textarea>
                   </div>
                   <div class="mb-3">
@@ -41,7 +41,7 @@
                   </div>
                 </div>
                 <div class="m-3 publish">
-                  <button type="submit"  @click.prevent="updateMessage" class="btn btn-outline-secondary publish">
+                  <button type="submit" class="btn btn-outline-secondary publish">
                     <i class="fa fa-check" aria-hidden="true"></i>Valider
                   </button>
                 </div>
@@ -84,20 +84,21 @@ export default {
         });
     },
     updateMessage() {
-      const formData = new FormData();
-      
+      const formData = new FormData();      
+      formData.append('title', this.post.title);
+      formData.append('post', this.post.post);
+      formData.append('userId', this.user.userId);
       if(this.file) {
-        formData.append('post',JSON.stringify({
-            title: this.title,
-            post: this.post,
-            userId: this.user.userId
-          }));
-        formData.append('image', this.file, this.file.name);
+         formData.append('image', this.file, this.file.name);
       } else {
-        formData.append('title', this.post.title);
-        formData.append('post', this.post.post);
-        formData.append('userId', this.user.userId);
-      }     
+        formData.append('image', '');
+        if(typeof(this.post.imageUrl) !== 'undefined'){
+          let imgTab = this.post.imageUrl.split('/');
+          const long = imgTab.length - 1;
+          const img = imgTab[long];
+          formData.append('image', img);
+        } 
+      }   
       
       http
         .put(`/post/${this.post._id}`,formData)
@@ -108,7 +109,7 @@ export default {
         .catch((err) => {
           console.log(err);
           alert(err)
-        })      
+        })       
     },
     selectImage() {
       this.$refs.fileInput.click()
@@ -128,6 +129,10 @@ export default {
         reader.readAsDataURL(file[0])
         this.$emit('input', file[0])
       }
+    },
+    checkForm:function(e) {
+      e.preventDefault();
+      this.updateMessage();
     }
   },
   mounted() {

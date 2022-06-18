@@ -40,7 +40,7 @@ app.use(helmet.crossOriginResourcePolicy({ policy: "cross-origin" }));
 
 //CORS
 app.use(cors({
-    origin: ['http://localhost:8080', 'http://localhost:8081'],
+    origin: ['http://localhost:8080'],
     setHeader: [(
         "Access-Control-Allow-Headers",
         "Origin, X-Requested-With, Content, Accept, Content-Type, Authorization"

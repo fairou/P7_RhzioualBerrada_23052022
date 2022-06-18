@@ -87,6 +87,7 @@ export default {
             title: this.title,
             post: this.post,
             userId: this.user.userId,
+            timestamp: new Date(),
           })
         );
         formData.append("image", this.file, this.file.name);
@@ -106,6 +107,7 @@ export default {
           title: this.title,
           post: this.post,
           userId: this.user.userId,
+          timestamp: new Date(),
         };
         console.log('new post - payload without img',payload);
         http

@@ -14,7 +14,7 @@ const userCtrl = require('../controllers/userController');
 
 const limiter = rateLimit({
         windowMs: 15 * 60 * 1000, // 15 minutes
-        max: 5, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
+        max: 10, // Limit each IP to 5 requests per `window` (here, per 15 minutes)
         standardHeaders: true, // Return rate limit info in the `RateLimit-*` headers
         legacyHeaders: false, // Disable the `X-RateLimit-*` headers
         message: "Too many request from this IP. please try again in 15 min",
@@ -24,7 +24,7 @@ const limiter = rateLimit({
     //Création des routes
     // Apply the rate limiting middleware to login requests
 
-router.post('/signup', userCtrl.signup);
+router.post('/signup', limiter, userCtrl.signup);
 router.post('/login', userCtrl.login);
 router.get('/:id', auth, userCtrl.getUserInfo);
 router.put('/:id', auth, multer, userCtrl.editUserInfo);

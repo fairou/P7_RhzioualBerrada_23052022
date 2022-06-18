@@ -15,7 +15,7 @@ const postCtrl = require('../controllers/postController');
 
 //Création des routes
 router.get('/', auth, postCtrl.getAllPosts);
-router.get('/:id', auth, multer, postCtrl.getPost);
+router.get('/:id', auth, postCtrl.getPost);
 router.post('/', auth, multer, postCtrl.createPost);
 
 router.put('/:id', auth, multer, postCtrl.modifyPost);

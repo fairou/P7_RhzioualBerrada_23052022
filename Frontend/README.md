@@ -1,24 +1,16 @@
-# front
+# Frontend
+Le projet Frontend contient les IHM du projet et il est réalisé avec Vue3.
+## Technologies
+La liste des technologies utilisé dans le projet:
 
-## Project setup
-```
-npm install
-```
+----------
+- axios pour effectuer les appels REST à l'API
+- vue-router pour gérer la navigation dans l'application
+- vuex pour la zone de stockage de données centralisée pour tous les composants dans l'application. **_gestionnaire d'état (« state management pattern »)_**
 
-### Compiles and hot-reloads for development
-```
-npm run serve
-```
+## Configuration & Installation
+pour démarrer le projet, merci de suivre les étapes suivantes.
 
-### Compiles and minifies for production
-```
-npm run build
-```
+1.  Lancer  `npm install`  depuis la console   
+2. pour lancer le serveur, exécuter la commande:  `npm run serve`
 
-### Lints and fixes files
-```
-npm run lint
-```
-
-### Customize configuration
-See [Configuration Reference](https://cli.vuejs.org/config/).

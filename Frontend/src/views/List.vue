@@ -9,18 +9,24 @@
                 <h1 class="mt-1 pb-1">Liste des posts</h1>
               </div>
               <div class="posts">
-              <div v-for="post in posts" :key="post._id" class="row g-4 text-left">
-                <div class="card mb-3">
-                <post :item="post" @up="refresh" :data-id="post._id"></post>
-                 <hr/>
-                 </div>
+                <div v-if="posts.length === 0" class="form row g-4 py-5 row-cols-1 row-cols-lg-1">
+                  <div class="feature col">
+                    <p>
+                      Il n'y a actuellement aucun post. Soyer le premier à vous exprimer
+                    </p>
+                    <router-link to="/add" class="btn btn-outline-secondary" aria-label="Nouveau article">
+                      Nouveau <i class="fa fa-paper-plane"></i>
+                    </router-link>
+                  </div>
+                </div>
+
+                <div v-for="post in posts" :key="post._id" class="m-1 row g-4 text-left">
+                  <div class="card mb-3">
+                    <post :item="post" @up="refresh" :data-id="post._id"></post>
+                    <hr />
+                  </div>
+                </div>
               </div>
-              
-              
-              </div>
-
-
-
             </div>
           </div>
         </div>
@@ -58,31 +64,34 @@ export default {
         //console.log(res.data);
         for (let i in this.posts) {
           this.posts[i].liked = false;
-           this.posts[i].disliked = false;
-          if (this.posts[i].usersLiked.includes(this.user.userId) ) {
+          this.posts[i].disliked = false;
+          if (this.posts[i].usersLiked.includes(this.user.userId)) {
             this.posts[i].liked = true;
-          }else if (this.posts[i].usersDisliked.includes(this.user.userId)){
+          } else if (this.posts[i].usersDisliked.includes(this.user.userId)) {
             this.posts[i].disliked = true;
           }
           // this.posts[i].userName=this.getUserName(this.posts[i].userId);
-          
+
           // this.getUserName(this.posts[i].userId, i);
           // console.log('this.posts[i]', this.posts[i]);
         }
       });
     },
-    getUserName(userId){
-      console.log('user:', userId);
-      http.get("/user/" + userId).then((res) => {
-        this.user = res.data.user;
-        
-        //console.log("res.data user",res.data.user.name);
-        // this.post[index].userName = res.data.user.name;
-        return res.data.user.name;
-      }).catch(()=>{
-        console.log('user not found') ;
-        return '';
-      });
+    getUserName(userId) {
+      console.log("user:", userId);
+      http
+        .get("/user/" + userId)
+        .then((res) => {
+          this.user = res.data.user;
+
+          //console.log("res.data user",res.data.user.name);
+          // this.post[index].userName = res.data.user.name;
+          return res.data.user.name;
+        })
+        .catch(() => {
+          console.log("user not found");
+          return "";
+        });
     },
   },
 };

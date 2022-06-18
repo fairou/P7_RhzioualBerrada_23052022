@@ -101,6 +101,12 @@ section {
     .dislike {
         display: flex;
     }
+    .card-post div {
+        text-align: center;
+        .card-body {
+            text-align: justify;
+        }
+    }
 }
 
 

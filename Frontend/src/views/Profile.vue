@@ -19,7 +19,7 @@
                 <input v-model="userInfo.userId" id="userId" name="userId" type="hidden">
                 <div class="m-3 text-left">
                     <div class="mb-3">
-                    <label for="nom" class="form-label">Nom</label>
+                    <label for="nom" class="form-label">Email</label>
                     <input v-model="userInfo.email" class="form-control" id="email" name="email" disabled>
                   </div>
                   <div class="mb-3">

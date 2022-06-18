@@ -24,8 +24,8 @@ const limiter = rateLimit({
     //Création des routes
     // Apply the rate limiting middleware to login requests
 
-router.post('/signup', limiter, userCtrl.signup);
-router.post('/login', userCtrl.login);
+router.post('/signup', userCtrl.signup);
+router.post('/login', limiter, userCtrl.login);
 router.get('/:id', auth, userCtrl.getUserInfo);
 router.put('/:id', auth, multer, userCtrl.editUserInfo);
 //Exportation du router
